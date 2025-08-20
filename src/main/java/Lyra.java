@@ -79,9 +79,56 @@ public class Lyra {
                         System.out.println(line);
                     }
                 }
+            } else if (trimmedInput.toLowerCase().startsWith("todo ")) {
+                String description = input.substring(5).trim();
+                Task task = new Todo(description);
+                if (taskCount < tasks.length) {
+                    tasks[taskCount++] = task;
+                }
+                System.out.println(line);
+                System.out.println(" Got it. I've added this task:");
+                System.out.println("   " + task.toString());
+                System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                System.out.println(line);
+            } else if (trimmedInput.toLowerCase().startsWith("deadline ")) {
+                String rest = input.substring(9).trim();
+                String[] split = rest.split("/by", 2);
+                String description = split[0].trim();
+                String by = split.length > 1 ? split[1].trim() : "";
+                Task task = new Deadline(description, by);
+                if (taskCount < tasks.length) {
+                    tasks[taskCount++] = task;
+                }
+                System.out.println(line);
+                System.out.println(" Got it. I've added this task:");
+                System.out.println("   " + task.toString());
+                System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                System.out.println(line);
+            } else if (trimmedInput.toLowerCase().startsWith("event ")) {
+                String rest = input.substring(6).trim();
+                String[] splitFrom = rest.split("/from", 2);
+                String description = splitFrom[0].trim();
+                String from = "";
+                String to = "";
+                if (splitFrom.length > 1) {
+                    String[] splitTo = splitFrom[1].split("/to", 2);
+                    from = splitTo[0].trim();
+                    if (splitTo.length > 1) {
+                        to = splitTo[1].trim();
+                    }
+                }
+                Task task = new Event(description, from, to);
+                if (taskCount < tasks.length) {
+                    tasks[taskCount++] = task;
+                }
+                System.out.println(line);
+                System.out.println(" Got it. I've added this task:");
+                System.out.println("   " + task.toString());
+                System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                System.out.println(line);
             } else {
                 if (taskCount < tasks.length) {
-                    tasks[taskCount] = new Task(input);
+                    tasks[taskCount] = new Todo(input);
                     taskCount++;
                 }
                 System.out.println(line);
