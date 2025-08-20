@@ -3,6 +3,8 @@ import java.util.Scanner;
 public class Lyra {
     public static void main(String[] args) {
         final String line = "____________________________________________________________";
+        final String[] tasks = new String[100];
+        int taskCount = 0;
 
         System.out.println(line);
         System.out.println(" Hello! I'm Lyra");
@@ -22,9 +24,21 @@ public class Lyra {
                 break;
             }
 
-            System.out.println(line);
-            System.out.println(" " + input);
-            System.out.println(line);
+            if (trimmedInput.equalsIgnoreCase("list")) {
+                System.out.println(line);
+                for (int i = 0; i < taskCount; i++) {
+                    System.out.println(" " + (i + 1) + ". " + tasks[i]);
+                }
+                System.out.println(line);
+            } else {
+                if (taskCount < tasks.length) {
+                    tasks[taskCount] = input;
+                    taskCount++;
+                }
+                System.out.println(line);
+                System.out.println(" added: " + input);
+                System.out.println(line);
+            }
         }
         scanner.close();
     }
