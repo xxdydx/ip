@@ -10,4 +10,8 @@ unmark 2
 list
 deadline do homework /by no idea :-p
 list
+todo
+deadline
+event
+unknownCmd
 bye

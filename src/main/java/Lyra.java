@@ -24,6 +24,13 @@ public class Lyra {
                 break;
             }
 
+            if (trimmedInput.isEmpty()) {
+                System.out.println(line);
+                System.out.println(" Please enter a command. Type 'list', 'todo', 'deadline', 'event', 'mark', 'unmark', or 'bye'.");
+                System.out.println(line);
+                continue;
+            }
+
             if (trimmedInput.equalsIgnoreCase("list")) {
                 System.out.println(line);
                 if (taskCount == 0) {
@@ -79,8 +86,14 @@ public class Lyra {
                         System.out.println(line);
                     }
                 }
-            } else if (trimmedInput.toLowerCase().startsWith("todo ")) {
-                String description = input.substring(5).trim();
+            } else if (trimmedInput.equalsIgnoreCase("todo") || trimmedInput.toLowerCase().startsWith("todo ")) {
+                String description = trimmedInput.length() == 4 ? "" : input.substring(5).trim();
+                if (description.isEmpty()) {
+                    System.out.println(line);
+                    System.out.println(" Sorry, a todo needs a description. Try: todo <description>");
+                    System.out.println(line);
+                    continue;
+                }
                 Task task = new Todo(description);
                 if (taskCount < tasks.length) {
                     tasks[taskCount++] = task;
@@ -90,11 +103,23 @@ public class Lyra {
                 System.out.println("   " + task.toString());
                 System.out.println(" Now you have " + taskCount + " tasks in the list.");
                 System.out.println(line);
-            } else if (trimmedInput.toLowerCase().startsWith("deadline ")) {
-                String rest = input.substring(9).trim();
+            } else if (trimmedInput.equalsIgnoreCase("deadline") || trimmedInput.toLowerCase().startsWith("deadline ")) {
+                String rest = trimmedInput.length() == 8 ? "" : input.substring(9).trim();
+                if (rest.isEmpty()) {
+                    System.out.println(line);
+                    System.out.println(" Sorry, a deadline needs a description and '/by'. Try: deadline <description> /by <when>");
+                    System.out.println(line);
+                    continue;
+                }
                 String[] split = rest.split("/by", 2);
                 String description = split[0].trim();
                 String by = split.length > 1 ? split[1].trim() : "";
+                if (description.isEmpty() || by.isEmpty()) {
+                    System.out.println(line);
+                    System.out.println(" Sorry, a deadline needs a description and '/by'. Try: deadline <description> /by <when>");
+                    System.out.println(line);
+                    continue;
+                }
                 Task task = new Deadline(description, by);
                 if (taskCount < tasks.length) {
                     tasks[taskCount++] = task;
@@ -104,8 +129,14 @@ public class Lyra {
                 System.out.println("   " + task.toString());
                 System.out.println(" Now you have " + taskCount + " tasks in the list.");
                 System.out.println(line);
-            } else if (trimmedInput.toLowerCase().startsWith("event ")) {
-                String rest = input.substring(6).trim();
+            } else if (trimmedInput.equalsIgnoreCase("event") || trimmedInput.toLowerCase().startsWith("event ")) {
+                String rest = trimmedInput.length() == 5 ? "" : input.substring(6).trim();
+                if (rest.isEmpty()) {
+                    System.out.println(line);
+                    System.out.println(" Sorry, an event needs a description and times. Try: event <description> /from <start> /to <end>");
+                    System.out.println(line);
+                    continue;
+                }
                 String[] splitFrom = rest.split("/from", 2);
                 String description = splitFrom[0].trim();
                 String from = "";
@@ -117,6 +148,12 @@ public class Lyra {
                         to = splitTo[1].trim();
                     }
                 }
+                if (description.isEmpty() || from.isEmpty() || to.isEmpty()) {
+                    System.out.println(line);
+                    System.out.println(" Sorry, an event needs a description and times. Try: event <description> /from <start> /to <end>");
+                    System.out.println(line);
+                    continue;
+                }
                 Task task = new Event(description, from, to);
                 if (taskCount < tasks.length) {
                     tasks[taskCount++] = task;
@@ -127,12 +164,8 @@ public class Lyra {
                 System.out.println(" Now you have " + taskCount + " tasks in the list.");
                 System.out.println(line);
             } else {
-                if (taskCount < tasks.length) {
-                    tasks[taskCount] = new Todo(input);
-                    taskCount++;
-                }
                 System.out.println(line);
-                System.out.println(" added: " + input);
+                System.out.println(" Sorry, I couldn't recognize that command. Try one of: list, todo, deadline, event, mark, unmark, bye.");
                 System.out.println(line);
             }
         }
