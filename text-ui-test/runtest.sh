@@ -12,6 +12,18 @@ then
     rm ACTUAL.TXT
 fi
 
+# clear data file to start fresh
+if [ -e "../data/lyra.txt" ]
+then
+    rm ../data/lyra.txt
+fi
+
+# also clear data file in current directory (in case program runs from here)
+if [ -e "./data/lyra.txt" ]
+then
+    rm ./data/lyra.txt
+fi
+
 # compile the code into the bin folder, terminates if error occurred
 if ! javac -cp ../src/main/java -Xlint:none -d ../bin ../src/main/java/*.java
 then
@@ -23,8 +35,7 @@ fi
 java -classpath ../bin Lyra < input.txt > ACTUAL.TXT
 
 # convert to UNIX format
-cp EXPECTED.TXT EXPECTED-UNIX.TXT
-dos2unix ACTUAL.TXT EXPECTED-UNIX.TXT
+dos2unix ACTUAL.TXT
 
 # compare the output to the expected output
 diff ACTUAL.TXT EXPECTED-UNIX.TXT
