@@ -16,6 +16,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 public class Storage {
     private final Path dataFile;
@@ -84,7 +85,8 @@ public class Storage {
             if ("T".equalsIgnoreCase(type)) {
                 task = new Todo(description);
             } else if ("D".equalsIgnoreCase(type) && parts.length >= 4) {
-                String by = parts[3].trim();
+                String byStr = parts[3].trim();
+                LocalDate by = LocalDate.parse(byStr, DateTimeUtil.STORAGE_DATE);
                 task = new Deadline(description, by);
             } else if ("E".equalsIgnoreCase(type) && parts.length >= 4) {
                 // For simplicity, we store the range as a single field "from to to"
@@ -99,7 +101,9 @@ public class Storage {
                     from = range;
                     to = "";
                 }
-                task = new Event(description, from, to);
+                LocalDate fromDate = LocalDate.parse(from.trim(), DateTimeUtil.STORAGE_DATE);
+                LocalDate toDate = LocalDate.parse(to.trim(), DateTimeUtil.STORAGE_DATE);
+                task = new Event(description, fromDate, toDate);
             }
             
             if (task != null && "1".equals(doneFlag)) {
