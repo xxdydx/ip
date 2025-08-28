@@ -1,3 +1,12 @@
+package duke;
+
+import duke.util.Storage;
+import duke.task.TaskList;
+import duke.util.Ui;
+import duke.command.Command;
+import duke.util.Parser;
+import duke.exception.LyraException;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.IOException;

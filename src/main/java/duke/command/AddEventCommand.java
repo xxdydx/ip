@@ -1,3 +1,12 @@
+package duke.command;
+
+import duke.task.TaskList;
+import duke.task.Event;
+import duke.task.Task;
+import duke.util.Ui;
+import duke.util.Storage;
+import duke.exception.LyraException;
+
 public class AddEventCommand extends Command {
     private final String description;
     private final String from;
