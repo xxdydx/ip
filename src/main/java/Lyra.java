@@ -1,15 +1,73 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Lyra {
     public static void main(String[] args) {
         final String line = "____________________________________________________________";
         final ArrayList<Task> tasks = new ArrayList<>();
+        final Path dataDir = Paths.get("data");
+        final Path dataFile = dataDir.resolve("duke.txt");
 
         System.out.println(line);
         System.out.println(" Hello! I'm Lyra");
         System.out.println(" What can I do for you?");
         System.out.println(line);
+
+        // Load existing tasks from disk if present
+        try {
+            if (Files.exists(dataFile)) {
+                for (String fileLine : Files.readAllLines(dataFile)) {
+                    String[] parts = fileLine.split("\\|", -1);
+                    // Expect formats:
+                    // T | 1 | description
+                    // D | 0 | description | by
+                    // E | 0 | description | from to to
+                    if (parts.length >= 3) {
+                        String type = parts[0].trim();
+                        String doneFlag = parts[1].trim();
+                        String description = parts[2].trim();
+                        Task task = null;
+                        if ("T".equalsIgnoreCase(type)) {
+                            task = new Todo(description);
+                        } else if ("D".equalsIgnoreCase(type) && parts.length >= 4) {
+                            String by = parts[3].trim();
+                            task = new Deadline(description, by);
+                        } else if ("E".equalsIgnoreCase(type) && parts.length >= 4) {
+                            // For simplicity, we store the range as a single field "from to to"
+                            String range = parts[3].trim();
+                            String from;
+                            String to;
+                            int sepIdx = range.lastIndexOf(" to ");
+                            if (sepIdx >= 0) {
+                                from = range.substring(0, sepIdx);
+                                to = range.substring(sepIdx + 4);
+                            } else {
+                                from = range;
+                                to = "";
+                            }
+                            task = new Event(description, from, to);
+                        }
+                        if (task != null && "1".equals(doneFlag)) {
+                            task.markAsDone();
+                        }
+                        if (task != null) {
+                            tasks.add(task);
+                        }
+                    }
+                }
+            } else {
+                if (!Files.exists(dataDir)) {
+                    Files.createDirectories(dataDir);
+                }
+                Files.createFile(dataFile);
+            }
+        } catch (IOException e) {
+            // If loading fails, start with empty list and continue
+        }
 
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
@@ -49,6 +107,7 @@ public class Lyra {
                         int idx = Integer.parseInt(parts[1]) - 1;
                         if (idx >= 0 && idx < tasks.size()) {
                             tasks.get(idx).markAsDone();
+                            saveTasks(tasks, dataFile);
                             System.out.println(line);
                             System.out.println(" Nice! I've marked this task as done:");
                             System.out.println("   " + tasks.get(idx).toString());
@@ -71,6 +130,7 @@ public class Lyra {
                         int idx = Integer.parseInt(parts[1]) - 1;
                         if (idx >= 0 && idx < tasks.size()) {
                             tasks.get(idx).markAsNotDone();
+                            saveTasks(tasks, dataFile);
                             System.out.println(line);
                             System.out.println(" OK, I've marked this task as not done yet:");
                             System.out.println("   " + tasks.get(idx).toString());
@@ -93,6 +153,7 @@ public class Lyra {
                         int idx = Integer.parseInt(parts[1]) - 1;
                         if (idx >= 0 && idx < tasks.size()) {
                             Task removedTask = tasks.remove(idx);
+                            saveTasks(tasks, dataFile);
                             System.out.println(line);
                             System.out.println(" Noted. I've removed this task:");
                             System.out.println("   " + removedTask.toString());
@@ -123,6 +184,7 @@ public class Lyra {
                 }
                 Task task = new Todo(description);
                 tasks.add(task);
+                saveTasks(tasks, dataFile);
                 System.out.println(line);
                 System.out.println(" Got it. I've added this task:");
                 System.out.println("   " + task.toString());
@@ -147,6 +209,7 @@ public class Lyra {
                 }
                 Task task = new Deadline(description, by);
                 tasks.add(task);
+                saveTasks(tasks, dataFile);
                 System.out.println(line);
                 System.out.println(" Got it. I've added this task:");
                 System.out.println("   " + task.toString());
@@ -179,6 +242,7 @@ public class Lyra {
                 }
                 Task task = new Event(description, from, to);
                 tasks.add(task);
+                saveTasks(tasks, dataFile);
                 System.out.println(line);
                 System.out.println(" Got it. I've added this task:");
                 System.out.println("   " + task.toString());
@@ -191,6 +255,24 @@ public class Lyra {
             }
         }
         scanner.close();
+    }
+
+    private static void saveTasks(ArrayList<Task> tasks, Path dataFile) {
+        ArrayList<String> lines = new ArrayList<>();
+        for (Task t : tasks) {
+            if (t instanceof Todo) {
+                lines.add(((Todo) t).toDataString());
+            } else if (t instanceof Deadline) {
+                lines.add(((Deadline) t).toDataString());
+            } else if (t instanceof Event) {
+                lines.add(((Event) t).toDataString());
+            }
+        }
+        try {
+            Files.write(dataFile, lines);
+        } catch (IOException e) {
+            // Ignore save errors to not disrupt user session
+        }
     }
 }
 
