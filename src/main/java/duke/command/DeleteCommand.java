@@ -1,3 +1,11 @@
+package duke.command;
+
+import duke.task.TaskList;
+import duke.task.Task;
+import duke.util.Ui;
+import duke.util.Storage;
+import duke.exception.LyraException;
+
 public class DeleteCommand extends Command {
     private final int taskIndex;
     

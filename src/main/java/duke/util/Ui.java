@@ -1,3 +1,8 @@
+package duke.util;
+
+import duke.task.Task;
+import duke.task.TaskList;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 
