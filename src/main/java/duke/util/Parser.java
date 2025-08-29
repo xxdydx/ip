@@ -9,6 +9,7 @@ import duke.command.AddEventCommand;
 import duke.command.MarkCommand;
 import duke.command.UnmarkCommand;
 import duke.command.DeleteCommand;
+import duke.command.FindCommand;
 import duke.exception.LyraException;
 
 public class Parser {
@@ -41,6 +42,8 @@ public class Parser {
                 return parseUnmarkCommand(arguments);
             case "delete":
                 return parseDeleteCommand(arguments);
+            case "find":
+                return parseFindCommand(arguments);
             default:
                 throw new LyraException("Sorry, I couldn't recognize that command. Try one of: list, todo, deadline, event, mark, unmark, delete, bye.");
         }
@@ -131,5 +134,12 @@ public class Parser {
         } catch (NumberFormatException e) {
             throw new LyraException("Invalid task number.");
         }
+    }
+
+    private static Command parseFindCommand(String arguments) throws LyraException {
+        if (arguments.trim().isEmpty()) {
+            throw new LyraException("Please provide a keyword to find. Try: find <keyword>");
+        }
+        return new FindCommand(arguments.trim());
     }
 }
