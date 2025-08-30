@@ -1,8 +1,8 @@
-package duke.task;
+package lyra.task;
 
 import java.time.LocalDate;
 
-import duke.util.DateTimeUtil;
+import lyra.util.DateTimeUtil;
 
 public class Event extends Task {
     private final LocalDate from;

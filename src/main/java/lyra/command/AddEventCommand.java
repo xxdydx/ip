@@ -1,12 +1,12 @@
-package duke.command;
+package lyra.command;
 
-import duke.task.TaskList;
-import duke.task.Event;
-import duke.task.Task;
-import duke.util.Ui;
-import duke.util.Storage;
-import duke.exception.LyraException;
-import duke.util.DateTimeUtil;
+import lyra.task.TaskList;
+import lyra.task.Event;
+import lyra.task.Task;
+import lyra.util.Ui;
+import lyra.util.Storage;
+import lyra.exception.LyraException;
+import lyra.util.DateTimeUtil;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;

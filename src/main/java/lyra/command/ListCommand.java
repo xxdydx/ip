@@ -1,9 +1,9 @@
-package duke.command;
+package lyra.command;
 
-import duke.task.TaskList;
-import duke.util.Ui;
-import duke.util.Storage;
-import duke.exception.LyraException;
+import lyra.task.TaskList;
+import lyra.util.Ui;
+import lyra.util.Storage;
+import lyra.exception.LyraException;
 
 public class ListCommand extends Command {
     

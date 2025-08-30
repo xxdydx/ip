@@ -1,16 +1,16 @@
-package duke.util;
+package lyra.util;
 
-import duke.command.Command;
-import duke.command.ExitCommand;
-import duke.command.ListCommand;
-import duke.command.AddTodoCommand;
-import duke.command.AddDeadlineCommand;
-import duke.command.AddEventCommand;
-import duke.command.MarkCommand;
-import duke.command.UnmarkCommand;
-import duke.command.DeleteCommand;
-import duke.command.FindCommand;
-import duke.exception.LyraException;
+import lyra.command.Command;
+import lyra.command.ExitCommand;
+import lyra.command.ListCommand;
+import lyra.command.AddTodoCommand;
+import lyra.command.AddDeadlineCommand;
+import lyra.command.AddEventCommand;
+import lyra.command.MarkCommand;
+import lyra.command.UnmarkCommand;
+import lyra.command.DeleteCommand;
+import lyra.command.FindCommand;
+import lyra.exception.LyraException;
 
 public class Parser {
     

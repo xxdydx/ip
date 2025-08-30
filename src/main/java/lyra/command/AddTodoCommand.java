@@ -1,11 +1,11 @@
-package duke.command;
+package lyra.command;
 
-import duke.task.TaskList;
-import duke.task.Todo;
-import duke.task.Task;
-import duke.util.Ui;
-import duke.util.Storage;
-import duke.exception.LyraException;
+import lyra.task.TaskList;
+import lyra.task.Todo;
+import lyra.task.Task;
+import lyra.util.Ui;
+import lyra.util.Storage;
+import lyra.exception.LyraException;
 
 public class AddTodoCommand extends Command {
     private final String description;

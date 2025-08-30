@@ -1,7 +1,7 @@
-package duke.util;
+package lyra.util;
 
-import duke.task.Task;
-import duke.task.TaskList;
+import lyra.task.Task;
+import lyra.task.TaskList;
 
 import java.util.Scanner;
 import java.util.ArrayList;

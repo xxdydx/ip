@@ -1,11 +1,11 @@
-package duke;
+package lyra;
 
-import duke.util.Storage;
-import duke.task.TaskList;
-import duke.util.Ui;
-import duke.command.Command;
-import duke.util.Parser;
-import duke.exception.LyraException;
+import lyra.util.Storage;
+import lyra.task.TaskList;
+import lyra.util.Ui;
+import lyra.command.Command;
+import lyra.util.Parser;
+import lyra.exception.LyraException;
 
 import java.util.Scanner;
 import java.util.ArrayList;

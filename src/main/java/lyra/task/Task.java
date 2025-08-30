@@ -1,4 +1,4 @@
-package duke.task;
+package lyra.task;
 
 public class Task {
     protected String description;

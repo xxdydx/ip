@@ -1,4 +1,4 @@
-package duke.exception;
+package lyra.exception;
 
 public class LyraException extends Exception {
     public LyraException(String message) {
