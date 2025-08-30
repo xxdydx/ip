@@ -18,13 +18,31 @@ import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
 
+/**
+ * Handles persistent storage of tasks in the Lyra application.
+ * Provides methods to load tasks from a file and save tasks to a file.
+ * Supports automatic creation of data directory and file if they don't exist.
+ */
 public class Storage {
     private final Path dataFile;
 
+    /**
+     * Constructs a new Storage instance with the specified file path.
+     *
+     * @param filePath the path to the data file for storing tasks
+     */
     public Storage(String filePath) {
         this.dataFile = Paths.get(filePath);
     }
 
+    /**
+     * Loads tasks from the data file.
+     * Creates the data directory and file if they don't exist.
+     * Parses each line of the file to reconstruct Task objects.
+     *
+     * @return an ArrayList of loaded tasks
+     * @throws LyraException if an error occurs during file operations
+     */
     public ArrayList<Task> load() throws LyraException {
         ArrayList<Task> tasks = new ArrayList<>();
         Path dataDir = dataFile.getParent();
@@ -51,6 +69,13 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Saves the current list of tasks to the data file.
+     * Converts each task to its data string representation and writes to file.
+     *
+     * @param tasks the list of tasks to save
+     * @throws LyraException if an error occurs during file writing
+     */
     public void save(ArrayList<Task> tasks) throws LyraException {
         ArrayList<String> lines = new ArrayList<>();
         for (Task task : tasks) {
@@ -70,6 +95,16 @@ public class Storage {
         }
     }
 
+    /**
+     * Parses a single line from the data file and reconstructs the corresponding Task object.
+     * Supports the following formats:
+     * - T | status | description (for Todo tasks)
+     * - D | status | description | deadline (for Deadline tasks)
+     * - E | status | description | from to to (for Event tasks)
+     *
+     * @param fileLine a single line from the data file
+     * @return the reconstructed Task object, or null if parsing fails
+     */
     private Task parseTaskFromFile(String fileLine) {
         String[] parts = fileLine.split("\\|", -1);
         // Expect formats:
