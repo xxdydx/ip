@@ -20,6 +20,7 @@ public class AddTodoCommand extends Command {
      * @param description the description of the todo task to be created
      */
     public AddTodoCommand(String description) {
+        assert description != null && !description.trim().isEmpty() : "description must not be null or empty";
         this.description = description;
     }
     
@@ -34,6 +35,9 @@ public class AddTodoCommand extends Command {
      */
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws LyraException {
+        assert tasks != null : "tasks must not be null";
+        assert ui != null : "ui must not be null";
+        assert storage != null : "storage must not be null";
         Task task = new Todo(description);
         tasks.addTask(task);
         storage.save(tasks.getTasks());

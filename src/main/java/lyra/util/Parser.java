@@ -28,6 +28,7 @@ public class Parser {
      * @throws LyraException if the command is empty, unrecognized, or has invalid arguments
      */
     public static Command parse(String fullCommand) throws LyraException {
+        assert fullCommand != null : "fullCommand must not be null";
         String trimmedCommand = fullCommand.trim();
         
         if (trimmedCommand.isEmpty()) {
@@ -35,6 +36,7 @@ public class Parser {
         }
         
         String[] parts = trimmedCommand.split(" ", 2);
+        assert parts.length >= 1 : "split must produce at least one part";
         String command = parts[0].toLowerCase();
         String arguments = parts.length > 1 ? parts[1] : "";
         
@@ -71,6 +73,7 @@ public class Parser {
      * @throws LyraException if the description is empty
      */
     private static Command parseTodoCommand(String arguments) throws LyraException {
+        assert arguments != null : "arguments must not be null";
         if (arguments.trim().isEmpty()) {
             throw new LyraException("Sorry, a todo needs a description. Try: todo <description>");
         }
@@ -86,6 +89,7 @@ public class Parser {
      * @throws LyraException if the arguments are missing or malformed
      */
     private static Command parseDeadlineCommand(String arguments) throws LyraException {
+        assert arguments != null : "arguments must not be null";
         if (arguments.trim().isEmpty()) {
             throw new LyraException("Sorry, a deadline needs a description and '/by'. Try: deadline <description> /by <when>");
         }
@@ -110,6 +114,7 @@ public class Parser {
      * @throws LyraException if the arguments are missing or malformed
      */
     private static Command parseEventCommand(String arguments) throws LyraException {
+        assert arguments != null : "arguments must not be null";
         if (arguments.trim().isEmpty()) {
             throw new LyraException("Sorry, an event needs a description and times. Try: event <description> /from <start> /to <end>");
         }
@@ -143,6 +148,7 @@ public class Parser {
      * @throws LyraException if the task number is missing or invalid
      */
     private static Command parseMarkCommand(String arguments) throws LyraException {
+        assert arguments != null : "arguments must not be null";
         if (arguments.trim().isEmpty()) {
             throw new LyraException("Invalid task number.");
         }
@@ -164,6 +170,7 @@ public class Parser {
      * @throws LyraException if the task number is missing or invalid
      */
     private static Command parseUnmarkCommand(String arguments) throws LyraException {
+        assert arguments != null : "arguments must not be null";
         if (arguments.trim().isEmpty()) {
             throw new LyraException("Invalid task number.");
         }
@@ -185,6 +192,7 @@ public class Parser {
      * @throws LyraException if the task number is missing or invalid
      */
     private static Command parseDeleteCommand(String arguments) throws LyraException {
+        assert arguments != null : "arguments must not be null";
         if (arguments.trim().isEmpty()) {
             throw new LyraException("Please specify a task number to delete. Try: delete <task_number>");
         }
@@ -206,6 +214,7 @@ public class Parser {
      * @throws LyraException if the keyword is empty
      */
     private static Command parseFindCommand(String arguments) throws LyraException {
+        assert arguments != null : "arguments must not be null";
         if (arguments.trim().isEmpty()) {
             throw new LyraException("Please provide a keyword to find. Try: find <keyword>");
         }

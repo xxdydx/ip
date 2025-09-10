@@ -16,6 +16,7 @@ public class TaskList {
      */
     public TaskList() {
         this.tasks = new ArrayList<>();
+        assert this.tasks != null : "tasks list should be initialized";
     }
 
     /**
@@ -24,6 +25,7 @@ public class TaskList {
      * @param tasks the initial list of tasks
      */
     public TaskList(ArrayList<Task> tasks) {
+        assert tasks != null : "initial tasks must not be null";
         this.tasks = tasks;
     }
 
@@ -33,7 +35,9 @@ public class TaskList {
      * @param task the task to add
      */
     public void addTask(Task task) {
+        assert task != null : "task to add must not be null";
         tasks.add(task);
+        assert tasks.size() > 0 : "size should increase after adding task";
     }
 
     /**
@@ -44,6 +48,8 @@ public class TaskList {
      * @throws LyraException if the index is invalid
      */
     public Task deleteTask(int index) throws LyraException {
+        assert index >= 0 : "index must be non-negative";
+        assert index < tasks.size() : "index must be within list bounds";
         if (index < 0 || index >= tasks.size()) {
             throw new LyraException("Invalid task number.");
         }
@@ -57,10 +63,13 @@ public class TaskList {
      * @throws LyraException if the index is invalid
      */
     public void markTaskAsDone(int index) throws LyraException {
+        assert index >= 0 : "index must be non-negative";
+        assert index < tasks.size() : "index must be within list bounds";
         if (index < 0 || index >= tasks.size()) {
             throw new LyraException("Invalid task number.");
         }
         tasks.get(index).markAsDone();
+        assert tasks.get(index).isDone() : "task should be marked done";
     }
 
     /**
@@ -70,10 +79,13 @@ public class TaskList {
      * @throws LyraException if the index is invalid
      */
     public void markTaskAsNotDone(int index) throws LyraException {
+        assert index >= 0 : "index must be non-negative";
+        assert index < tasks.size() : "index must be within list bounds";
         if (index < 0 || index >= tasks.size()) {
             throw new LyraException("Invalid task number.");
         }
         tasks.get(index).markAsNotDone();
+        assert !tasks.get(index).isDone() : "task should be marked not done";
     }
 
     /**
@@ -82,6 +94,7 @@ public class TaskList {
      * @return the list of tasks
      */
     public ArrayList<Task> getTasks() {
+        assert tasks != null : "tasks list should never be null";
         return tasks;
     }
 
