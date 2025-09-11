@@ -14,18 +14,24 @@ import lyra.exception.LyraException;
 
 /**
  * Utility class for parsing user input commands and converting them to Command objects.
- * Handles the parsing of various command types including task management commands
- * and provides appropriate error messages for invalid inputs.
  */
 public class Parser {
+    private static final String COMMAND_BYE = "bye";
+    private static final String COMMAND_LIST = "list";
+    private static final String COMMAND_TODO = "todo";
+    private static final String COMMAND_DEADLINE = "deadline";
+    private static final String COMMAND_EVENT = "event";
+    private static final String COMMAND_MARK = "mark";
+    private static final String COMMAND_UNMARK = "unmark";
+    private static final String COMMAND_DELETE = "delete";
+    private static final String COMMAND_FIND = "find";
+    
+    private static final String DEADLINE_SEPARATOR = "/by";
+    private static final String EVENT_FROM_SEPARATOR = "/from";
+    private static final String EVENT_TO_SEPARATOR = "/to";
     
     /**
      * Parses a full command string and returns the appropriate Command object.
-     * Supports commands: bye, list, todo, deadline, event, mark, unmark, delete, find.
-     *
-     * @param fullCommand the complete command string entered by the user
-     * @return a Command object representing the parsed command
-     * @throws LyraException if the command is empty, unrecognized, or has invalid arguments
      */
     public static Command parse(String fullCommand) throws LyraException {
         String trimmedCommand = fullCommand.trim();
@@ -39,37 +45,29 @@ public class Parser {
         String arguments = parts.length > 1 ? parts[1] : "";
         
         switch (command) {
-            case "bye":
+            case COMMAND_BYE:
                 return new ExitCommand();
-            case "list":
+            case COMMAND_LIST:
                 return new ListCommand();
-            case "todo":
+            case COMMAND_TODO:
                 return parseTodoCommand(arguments);
-            case "deadline":
+            case COMMAND_DEADLINE:
                 return parseDeadlineCommand(arguments);
-            case "event":
+            case COMMAND_EVENT:
                 return parseEventCommand(arguments);
-            case "mark":
+            case COMMAND_MARK:
                 return parseMarkCommand(arguments);
-            case "unmark":
+            case COMMAND_UNMARK:
                 return parseUnmarkCommand(arguments);
-            case "delete":
+            case COMMAND_DELETE:
                 return parseDeleteCommand(arguments);
-            case "find":
+            case COMMAND_FIND:
                 return parseFindCommand(arguments);
             default:
                 throw new LyraException("Sorry, I couldn't recognize that command. Try one of: list, todo, deadline, event, mark, unmark, delete, bye.");
         }
     }
     
-    /**
-     * Parses arguments for a todo command and creates an AddTodoCommand.
-     * Requires a non-empty description.
-     *
-     * @param arguments the arguments string for the todo command
-     * @return an AddTodoCommand with the parsed description
-     * @throws LyraException if the description is empty
-     */
     private static Command parseTodoCommand(String arguments) throws LyraException {
         if (arguments.trim().isEmpty()) {
             throw new LyraException("Sorry, a todo needs a description. Try: todo <description>");
@@ -77,20 +75,12 @@ public class Parser {
         return new AddTodoCommand(arguments.trim());
     }
     
-    /**
-     * Parses arguments for a deadline command and creates an AddDeadlineCommand.
-     * Requires description and /by date separated by '/by'.
-     *
-     * @param arguments the arguments string for the deadline command
-     * @return an AddDeadlineCommand with the parsed description and deadline
-     * @throws LyraException if the arguments are missing or malformed
-     */
     private static Command parseDeadlineCommand(String arguments) throws LyraException {
         if (arguments.trim().isEmpty()) {
             throw new LyraException("Sorry, a deadline needs a description and '/by'. Try: deadline <description> /by <when>");
         }
         
-        String[] split = arguments.split("/by", 2);
+        String[] split = arguments.split(DEADLINE_SEPARATOR, 2);
         String description = split[0].trim();
         String by = split.length > 1 ? split[1].trim() : "";
         
@@ -101,26 +91,18 @@ public class Parser {
         return new AddDeadlineCommand(description, by);
     }
     
-    /**
-     * Parses arguments for an event command and creates an AddEventCommand.
-     * Requires description, /from start date, and /to end date.
-     *
-     * @param arguments the arguments string for the event command
-     * @return an AddEventCommand with the parsed description and time period
-     * @throws LyraException if the arguments are missing or malformed
-     */
     private static Command parseEventCommand(String arguments) throws LyraException {
         if (arguments.trim().isEmpty()) {
             throw new LyraException("Sorry, an event needs a description and times. Try: event <description> /from <start> /to <end>");
         }
         
-        String[] splitFrom = arguments.split("/from", 2);
+        String[] splitFrom = arguments.split(EVENT_FROM_SEPARATOR, 2);
         String description = splitFrom[0].trim();
         String from = "";
         String to = "";
         
         if (splitFrom.length > 1) {
-            String[] splitTo = splitFrom[1].split("/to", 2);
+            String[] splitTo = splitFrom[1].split(EVENT_TO_SEPARATOR, 2);
             from = splitTo[0].trim();
             if (splitTo.length > 1) {
                 to = splitTo[1].trim();
@@ -134,14 +116,6 @@ public class Parser {
         return new AddEventCommand(description, from, to);
     }
     
-    /**
-     * Parses arguments for a mark command and creates a MarkCommand.
-     * Requires a valid task number (converted to 0-based index).
-     *
-     * @param arguments the arguments string for the mark command
-     * @return a MarkCommand with the parsed task index
-     * @throws LyraException if the task number is missing or invalid
-     */
     private static Command parseMarkCommand(String arguments) throws LyraException {
         if (arguments.trim().isEmpty()) {
             throw new LyraException("Invalid task number.");
@@ -155,14 +129,6 @@ public class Parser {
         }
     }
     
-    /**
-     * Parses arguments for an unmark command and creates an UnmarkCommand.
-     * Requires a valid task number (converted to 0-based index).
-     *
-     * @param arguments the arguments string for the unmark command
-     * @return an UnmarkCommand with the parsed task index
-     * @throws LyraException if the task number is missing or invalid
-     */
     private static Command parseUnmarkCommand(String arguments) throws LyraException {
         if (arguments.trim().isEmpty()) {
             throw new LyraException("Invalid task number.");
@@ -176,14 +142,6 @@ public class Parser {
         }
     }
     
-    /**
-     * Parses arguments for a delete command and creates a DeleteCommand.
-     * Requires a valid task number (converted to 0-based index).
-     *
-     * @param arguments the arguments string for the delete command
-     * @return a DeleteCommand with the parsed task index
-     * @throws LyraException if the task number is missing or invalid
-     */
     private static Command parseDeleteCommand(String arguments) throws LyraException {
         if (arguments.trim().isEmpty()) {
             throw new LyraException("Please specify a task number to delete. Try: delete <task_number>");
@@ -197,14 +155,6 @@ public class Parser {
         }
     }
 
-    /**
-     * Parses arguments for a find command and creates a FindCommand.
-     * Requires a non-empty search keyword.
-     *
-     * @param arguments the arguments string for the find command
-     * @return a FindCommand with the parsed search keyword
-     * @throws LyraException if the keyword is empty
-     */
     private static Command parseFindCommand(String arguments) throws LyraException {
         if (arguments.trim().isEmpty()) {
             throw new LyraException("Please provide a keyword to find. Try: find <keyword>");
