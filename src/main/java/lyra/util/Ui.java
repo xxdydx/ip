@@ -226,6 +226,13 @@ public class Ui {
         showLine();
     }
 
+    public String showMessage(String message) {
+        showLine();
+        System.out.println(" " + message);
+        showLine();
+        return message;
+    }
+
     /**
      * Closes the Scanner to free system resources.
      */

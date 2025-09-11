@@ -160,6 +160,12 @@ public class GuiUi extends Ui {
     }
 
     @Override
+    public String showMessage(String message) {
+        outputBuffer.append(message);
+        return message;
+    }
+
+    @Override
     public void close() {
         // No need to close scanner in GUI
     }

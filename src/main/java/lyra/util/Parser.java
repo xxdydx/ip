@@ -10,6 +10,7 @@ import lyra.command.MarkCommand;
 import lyra.command.UnmarkCommand;
 import lyra.command.DeleteCommand;
 import lyra.command.FindCommand;
+import lyra.command.SortCommand;
 import lyra.exception.LyraException;
 
 /**
@@ -21,7 +22,7 @@ public class Parser {
     
     /**
      * Parses a full command string and returns the appropriate Command object.
-     * Supports commands: bye, list, todo, deadline, event, mark, unmark, delete, find.
+     * Supports commands: bye, list, todo, deadline, event, mark, unmark, delete, find, sort.
      *
      * @param fullCommand the complete command string entered by the user
      * @return a Command object representing the parsed command
@@ -31,7 +32,7 @@ public class Parser {
         String trimmedCommand = fullCommand.trim();
         
         if (trimmedCommand.isEmpty()) {
-            throw new LyraException("Please enter a command. Type 'list', 'todo', 'deadline', 'event', 'mark', 'unmark', 'delete', or 'bye'.");
+            throw new LyraException("Please enter a command. Type 'list', 'todo', 'deadline', 'event', 'mark', 'unmark', 'delete', 'find', 'sort', or 'bye'.");
         }
         
         String[] parts = trimmedCommand.split(" ", 2);
@@ -57,8 +58,10 @@ public class Parser {
                 return parseDeleteCommand(arguments);
             case "find":
                 return parseFindCommand(arguments);
+            case "sort":
+                return parseSortCommand(arguments);
             default:
-                throw new LyraException("Sorry, I couldn't recognize that command. Try one of: list, todo, deadline, event, mark, unmark, delete, bye.");
+                throw new LyraException("Sorry, I couldn't recognize that command. Try one of: list, todo, deadline, event, mark, unmark, delete, find, sort, bye.");
         }
     }
     
@@ -210,5 +213,22 @@ public class Parser {
             throw new LyraException("Please provide a keyword to find. Try: find <keyword>");
         }
         return new FindCommand(arguments.trim());
+    }
+
+    private static Command parseSortCommand(String arguments) throws LyraException {
+        if (arguments.trim().isEmpty()) {
+            throw new LyraException("Please specify a sort criteria. Available options: description, deadline, event, type, status");
+        }
+        
+        String criteria = arguments.trim().toLowerCase();
+        String[] validCriteria = {"description", "deadline", "event", "type", "status"};
+        
+        for (String valid : validCriteria) {
+            if (criteria.equals(valid)) {
+                return new SortCommand(criteria);
+            }
+        }
+        
+        throw new LyraException("Invalid sort criteria. Available options: description, deadline, event, type, status");
     }
 }
