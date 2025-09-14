@@ -26,6 +26,8 @@ public class AddDeadlineCommand extends Command {
      * @param by the deadline date in string format (will be parsed to LocalDate)
      */
     public AddDeadlineCommand(String description, String by) {
+        assert description != null && !description.trim().isEmpty() : "description must not be null or empty";
+        assert by != null && !by.trim().isEmpty() : "by must not be null or empty";
         this.description = description;
         this.byRaw = by;
     }
@@ -42,6 +44,9 @@ public class AddDeadlineCommand extends Command {
      */
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws LyraException {
+        assert tasks != null : "tasks must not be null";
+        assert ui != null : "ui must not be null";
+        assert storage != null : "storage must not be null";
         try {
             LocalDate by = DateTimeUtil.parseDate(byRaw);
             Task task = new Deadline(description, by);

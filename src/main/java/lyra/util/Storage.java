@@ -32,7 +32,9 @@ public class Storage {
      * @param filePath the path to the data file for storing tasks
      */
     public Storage(String filePath) {
+        assert filePath != null && !filePath.trim().isEmpty() : "filePath must not be null or empty";
         this.dataFile = Paths.get(filePath);
+        assert this.dataFile != null : "dataFile path must be initialized";
     }
 
     /**
@@ -50,6 +52,7 @@ public class Storage {
         try {
             if (Files.exists(dataFile)) {
                 for (String fileLine : Files.readAllLines(dataFile)) {
+                    assert fileLine != null : "file line must not be null";
                     Task task = parseTaskFromFile(fileLine);
                     if (task != null) {
                         tasks.add(task);
@@ -57,7 +60,7 @@ public class Storage {
                 }
             } else {
                 // Create directory and file if they don't exist
-                if (!Files.exists(dataDir)) {
+                if (dataDir != null && !Files.exists(dataDir)) {
                     Files.createDirectories(dataDir);
                 }
                 Files.createFile(dataFile);
@@ -77,8 +80,10 @@ public class Storage {
      * @throws LyraException if an error occurs during file writing
      */
     public void save(ArrayList<Task> tasks) throws LyraException {
+        assert tasks != null : "tasks to save must not be null";
         ArrayList<String> lines = new ArrayList<>();
         for (Task task : tasks) {
+            assert task != null : "task item must not be null";
             if (task instanceof Todo) {
                 lines.add(((Todo) task).toDataString());
             } else if (task instanceof Deadline) {

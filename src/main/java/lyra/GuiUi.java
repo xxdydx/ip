@@ -18,6 +18,7 @@ public class GuiUi extends Ui {
      */
     public GuiUi() {
         this.outputBuffer = new StringBuilder();
+        assert this.outputBuffer != null : "output buffer must be initialized";
     }
 
     /**
@@ -67,6 +68,7 @@ public class GuiUi extends Ui {
 
     @Override
     public void showTaskList(ArrayList<Task> tasks) {
+        assert tasks != null : "tasks must not be null";
         StringBuilder message = new StringBuilder();
         if (tasks.isEmpty()) {
             message.append("There are no tasks in your list.");
@@ -82,6 +84,7 @@ public class GuiUi extends Ui {
 
     @Override
     public void showMatchingTasks(ArrayList<Task> tasks) {
+        assert tasks != null : "tasks must not be null";
         StringBuilder message = new StringBuilder();
         if (tasks.isEmpty()) {
             message.append("No matching tasks found.");
@@ -97,12 +100,15 @@ public class GuiUi extends Ui {
 
     @Override
     public void showTaskAdded(Task task, int totalTasks) {
+        assert task != null : "task must not be null";
+        assert totalTasks >= 0 : "totalTasks must be non-negative";
         String message = "Got it. I've added this task:\n  " + task.toString() + "\nNow you have " + totalTasks + " tasks in the list.";
         outputBuffer.append(message);
     }
 
     @Override
     public void showTaskMarked(Task task, boolean isDone) {
+        assert task != null : "task must not be null";
         String message;
         if (isDone) {
             message = "Nice! I've marked this task as done:\n  " + task.toString();
@@ -114,6 +120,8 @@ public class GuiUi extends Ui {
 
     @Override
     public void showTaskDeleted(Task task, int remainingTasks) {
+        assert task != null : "task must not be null";
+        assert remainingTasks >= 0 : "remainingTasks must be non-negative";
         String message = "Noted. I've removed this task:\n  " + task.toString() + "\nNow you have " + remainingTasks + " tasks in the list.";
         outputBuffer.append(message);
     }
@@ -156,6 +164,7 @@ public class GuiUi extends Ui {
 
     @Override
     public void showError(String message) {
+        assert message != null : "error message must not be null";
         outputBuffer.append(message);
     }
 

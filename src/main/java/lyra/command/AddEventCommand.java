@@ -28,6 +28,9 @@ public class AddEventCommand extends Command {
      * @param to the end date of the event in string format (will be parsed to LocalDate)
      */
     public AddEventCommand(String description, String from, String to) {
+        assert description != null && !description.trim().isEmpty() : "description must not be null or empty";
+        assert from != null && !from.trim().isEmpty() : "from date must not be null or empty";
+        assert to != null && !to.trim().isEmpty() : "to date must not be null or empty";
         this.description = description;
         this.fromRaw = from;
         this.toRaw = to;
@@ -45,6 +48,9 @@ public class AddEventCommand extends Command {
      */
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws LyraException {
+        assert tasks != null : "tasks must not be null";
+        assert ui != null : "ui must not be null";
+        assert storage != null : "storage must not be null";
         try {
             LocalDate from = DateTimeUtil.parseDate(fromRaw);
             LocalDate to = DateTimeUtil.parseDate(toRaw);

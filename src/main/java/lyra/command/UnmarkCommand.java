@@ -32,6 +32,10 @@ public class UnmarkCommand extends Command {
      */
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws LyraException {
+        assert tasks != null : "tasks must not be null";
+        assert ui != null : "ui must not be null";
+        assert storage != null : "storage must not be null";
+        assert taskIndex >= 0 && taskIndex < tasks.getSize() : "taskIndex must be in range";
         tasks.markTaskAsNotDone(taskIndex);
         storage.save(tasks.getTasks());
         ui.showTaskMarked(tasks.getTasks().get(taskIndex), false);
