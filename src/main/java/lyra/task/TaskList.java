@@ -2,7 +2,6 @@ package lyra.task;
 
 import lyra.exception.LyraException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Manages a collection of tasks in the Lyra application.

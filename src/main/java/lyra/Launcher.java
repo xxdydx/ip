@@ -99,7 +99,7 @@ public class Launcher extends Application {
         guiUi.showWelcome();
         String welcomeMessage = guiUi.getOutput();
         dialogContainer.getChildren().add(
-            DialogBox.getDukeDialog(welcomeMessage, false)
+            DialogBox.getLyraDialog(welcomeMessage, false)
         );
     }
 
@@ -131,7 +131,7 @@ public class Launcher extends Application {
             
             // Add response to dialog
             dialogContainer.getChildren().add(
-                DialogBox.getDukeDialog(response, false)
+                DialogBox.getLyraDialog(response, false)
             );
 
             // Check if exit command
@@ -140,7 +140,7 @@ public class Launcher extends Application {
             }
         } catch (LyraException e) {
             dialogContainer.getChildren().add(
-                DialogBox.getDukeDialog("Error: " + e.getMessage(), false)
+                DialogBox.getLyraDialog("Error: " + e.getMessage(), false)
             );
         }
 
