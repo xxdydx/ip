@@ -10,31 +10,48 @@
 
 All you need to do is:
 
-1. download it from [here](https://github.com/yourusername/ip/releases)
-2. double-click it
-3. add your tasks
-4. let it manage your tasks for you 😉
+1. Clone this repository or download the latest release
+2. Run `./gradlew run` for the GUI version or `./gradlew runShadow` for the command line version
+3. Add your tasks using simple commands
+4. Let it manage your tasks for you 😉
 
 And it is **FREE**!
 
 ## Features
 
-- [x] Managing tasks
-- [x] Managing deadlines
-- [x] Managing events
+- [x] Managing tasks (todos, deadlines, events)
+- [x] Data persistence (automatic saving/loading)
+- [x] Search functionality
+- [x] Mark tasks as done/not done
+- [x] Delete tasks
+- [x] Both command-line and GUI interfaces
 - [ ] Reminders (coming soon)
-- [ ] Data persistence
-- [ ] Search functionality
 
 If you are a Java programmer, you can use it to practice Java too. Here's the main method:
 
 ```java
 public class Lyra {
     public static void main(String[] args) {
-        Lyra lyra = new Lyra();
-        lyra.run();
+        new Lyra("data/lyra.txt").run();
     }
 }
+```
+
+## Quick Start
+
+### Building the Project
+```bash
+# Build the project
+./gradlew build
+
+# Run the GUI version
+./gradlew run
+
+# Run the command line version
+./gradlew runShadow
+
+# Run tests
+./gradlew test
 ```
 
 ## Setting up in IntelliJ
@@ -51,29 +68,35 @@ public class Lyra {
 4. After that, locate the `src/main/java/lyra/Lyra.java` file, right-click it, and choose `Run Lyra.main()`. If the setup is correct, you should see something like the below as the output:
 
 ```
-Hello from
- ____        _        
-|  _ \ _   _| | _____ 
-| | | | | | | |/ / _ \
-| |_| | |_| |   <  __/
-|____/ \__,_|_|\_\___|
+Hello! I'm Lyra
+What can I do for you?
 ```
 
 **Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
 
 ## Usage
 
-To use Lyra, simply run the application and type commands like:
+### Command Line Interface
+To use Lyra from the command line, run the application and type commands like:
 
 - `todo buy groceries` - adds a new todo task
 - `deadline submit report /by 2024-12-31` - adds a deadline task
-- `event team meeting /at 2024-12-25 14:00` - adds an event task
+- `event team meeting /from 2024-12-25 /to 2024-12-26` - adds an event task
 - `list` - shows all tasks
 - `mark 1` - marks task 1 as done
 - `unmark 1` - marks task 1 as not done
 - `delete 1` - deletes task 1
 - `find meeting` - searches for tasks containing "meeting"
 - `bye` - exits the application
+
+### GUI Interface
+Lyra also includes a modern JavaFX GUI interface. To run the GUI version:
+
+1. Run `./gradlew run` from the project root
+2. Use the text field at the bottom to enter commands
+3. Click "Send" or press Enter to execute commands
+
+The GUI provides the same functionality as the command line interface with a more user-friendly interface.
 
 ## Contributing
 
