@@ -34,7 +34,7 @@ fi
 rm -f sources.txt
 
 # run the program (package main class), feed commands and capture output
-java -classpath ../bin duke.Lyra < input.txt > ACTUAL.TXT
+java -classpath ../bin lyra.Lyra < input.txt > ACTUAL.TXT
 
 # convert to UNIX format
 dos2unix ACTUAL.TXT
