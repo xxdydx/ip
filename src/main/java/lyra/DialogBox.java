@@ -22,15 +22,16 @@ public class DialogBox extends HBox {
         displayPicture = iv;
 
         text.setWrapText(true);
-        text.setFont(Font.font("Arial", 12));
+        text.setFont(Font.font("Segoe UI", 13));
         text.setMinHeight(Label.USE_PREF_SIZE);
+        text.setMaxWidth(300);
         
-        displayPicture.setFitWidth(50.0);
-        displayPicture.setFitHeight(50.0);
+        displayPicture.setFitWidth(40.0);
+        displayPicture.setFitHeight(40.0);
 
         this.setAlignment(Pos.TOP_RIGHT);
-        this.setSpacing(10);
-        this.setPadding(new javafx.geometry.Insets(10));
+        this.setSpacing(12);
+        this.setPadding(new javafx.geometry.Insets(8));
         this.getChildren().addAll(text, displayPicture);
     }
 
@@ -46,14 +47,14 @@ public class DialogBox extends HBox {
 
     public static DialogBox getUserDialog(String text, boolean isUser) {
         var db = new DialogBox(new Label(text), new ImageView());
-        db.text.setStyle("-fx-background-color: #e3f2fd; -fx-background-radius: 10; -fx-padding: 10;");
+        db.text.setStyle("-fx-background-color: #0078d4; -fx-background-radius: 15; -fx-padding: 12; -fx-text-fill: white; -fx-font-weight: bold;");
         db.flip();
         return db;
     }
 
     public static DialogBox getLyraDialog(String text, boolean isUser) {
         var db = new DialogBox(new Label(text), new ImageView());
-        db.text.setStyle("-fx-background-color: #f3e5f5; -fx-background-radius: 10; -fx-padding: 10;");
+        db.text.setStyle("-fx-background-color: #f0f0f0; -fx-background-radius: 15; -fx-padding: 12; -fx-text-fill: #333333; -fx-border-color: #e0e0e0; -fx-border-width: 1; -fx-border-radius: 15;");
         return db;
     }
 }

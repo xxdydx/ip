@@ -27,8 +27,9 @@ public class Ui {
      */
     public void showWelcome() {
         showLine();
-        System.out.println(" Hello! I'm Lyra");
-        System.out.println(" What can I do for you?");
+        System.out.println(" 🌟 Hello! I'm Lyra, your personal task manager");
+        System.out.println(" 💡 Type 'help' to see all available commands");
+        System.out.println(" 🚀 What can I do for you today?");
         showLine();
     }
 

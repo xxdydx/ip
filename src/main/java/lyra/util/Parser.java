@@ -2,6 +2,7 @@ package lyra.util;
 
 import lyra.command.Command;
 import lyra.command.ExitCommand;
+import lyra.command.HelpCommand;
 import lyra.command.ListCommand;
 import lyra.command.AddTodoCommand;
 import lyra.command.AddDeadlineCommand;
@@ -33,7 +34,7 @@ public class Parser {
         String trimmedCommand = fullCommand.trim();
         
         if (trimmedCommand.isEmpty()) {
-            throw new LyraException("Please enter a command. Type 'list', 'todo', 'deadline', 'event', 'mark', 'unmark', 'delete', 'find', 'sort', or 'bye'.");
+            throw new LyraException("Please enter a command. Type 'help' to see all available commands, or try: list, todo, deadline, event, mark, unmark, delete, find, sort, bye.");
         }
         
         String[] parts = trimmedCommand.split(" ", 2);
@@ -44,6 +45,8 @@ public class Parser {
         switch (command) {
             case "bye":
                 return new ExitCommand();
+            case "help":
+                return new HelpCommand();
             case "list":
                 return new ListCommand();
             case "todo":
@@ -63,7 +66,7 @@ public class Parser {
             case "sort":
                 return parseSortCommand(arguments);
             default:
-                throw new LyraException("Sorry, I couldn't recognize that command. Try one of: list, todo, deadline, event, mark, unmark, delete, find, sort, bye.");
+                throw new LyraException("Sorry, I couldn't recognize that command. Type 'help' to see all available commands, or try: list, todo, deadline, event, mark, unmark, delete, find, sort, bye.");
         }
     }
     

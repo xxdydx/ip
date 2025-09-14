@@ -59,25 +59,31 @@ public class Launcher extends Application {
         stage.show();
 
         // Set up the layout
-        stage.setTitle("Lyra");
-        stage.setResizable(false);
-        stage.setMinHeight(600.0);
-        stage.setMinWidth(400.0);
+        stage.setTitle("Lyra - Your Personal Task Manager");
+        stage.setResizable(true);
+        stage.setMinHeight(500.0);
+        stage.setMinWidth(450.0);
 
-        mainLayout.setPrefSize(400.0, 600.0);
+        mainLayout.setPrefSize(450.0, 600.0);
+        mainLayout.setStyle("-fx-background-color: #fafafa;");
 
-        scrollPane.setPrefSize(385, 535);
+        scrollPane.setPrefSize(430, 540);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
 
         scrollPane.setVvalue(1.0);
         scrollPane.setFitToWidth(true);
 
         dialogContainer.setPrefHeight(VBox.USE_COMPUTED_SIZE);
+        dialogContainer.setSpacing(8);
+        dialogContainer.setPadding(new javafx.geometry.Insets(10));
 
-        userInput.setPrefWidth(325.0);
+        userInput.setPrefWidth(350.0);
+        userInput.setStyle("-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 20; -fx-background-radius: 20; -fx-padding: 8 15; -fx-font-size: 14;");
 
-        sendButton.setPrefWidth(55.0);
+        sendButton.setPrefWidth(70.0);
+        sendButton.setStyle("-fx-background-color: #0078d4; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-weight: bold; -fx-font-size: 12;");
 
         AnchorPane.setTopAnchor(scrollPane, 1.0);
         AnchorPane.setBottomAnchor(sendButton, 1.0);

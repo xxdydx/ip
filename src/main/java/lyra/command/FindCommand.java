@@ -27,7 +27,7 @@ public class FindCommand extends Command {
     /**
      * Executes the find command by searching through all tasks for those
      * whose descriptions contain the specified keyword (case-insensitive).
-     * Displays the matching tasks to the user.
+     * Displays the matching tasks to the user with improved feedback.
      *
      * @param tasks the task list to search through
      * @param ui the user interface for displaying the search results
@@ -37,13 +37,21 @@ public class FindCommand extends Command {
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws LyraException {
         ArrayList<Task> matched = new ArrayList<>();
-        String needle = keyword.toLowerCase();
+        String needle = keyword.toLowerCase().trim();
+        
+        // Enhanced search with partial matching
         for (Task task : tasks.getTasks()) {
-            if (task.getDescription().toLowerCase().contains(needle)) {
+            String description = task.getDescription().toLowerCase();
+            if (description.contains(needle)) {
                 matched.add(task);
             }
         }
-        ui.showMatchingTasks(matched);
+        
+        if (matched.isEmpty()) {
+            ui.showMessage("No tasks found matching '" + keyword + "'. Try a different keyword or check your spelling.");
+        } else {
+            ui.showMatchingTasks(matched);
+        }
     }
 }
 
