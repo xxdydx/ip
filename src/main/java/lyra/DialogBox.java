@@ -7,7 +7,6 @@ import javafx.scene.layout.HBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 /**
@@ -52,7 +51,7 @@ public class DialogBox extends HBox {
         return db;
     }
 
-    public static DialogBox getDukeDialog(String text, boolean isUser) {
+    public static DialogBox getLyraDialog(String text, boolean isUser) {
         var db = new DialogBox(new Label(text), new ImageView());
         db.text.setStyle("-fx-background-color: #f3e5f5; -fx-background-radius: 10; -fx-padding: 10;");
         return db;

@@ -7,12 +7,6 @@ import lyra.command.Command;
 import lyra.util.Parser;
 import lyra.exception.LyraException;
 
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Main class for the Lyra task management application.
