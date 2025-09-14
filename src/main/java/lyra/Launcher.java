@@ -7,7 +7,12 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
+import javafx.geometry.Insets;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import lyra.util.Storage;
 import lyra.task.TaskList;
 import lyra.command.Command;
@@ -58,39 +63,95 @@ public class Launcher extends Application {
         stage.setScene(scene);
         stage.show();
 
-        // Set up the layout
+        // Set up the layout with improved styling
         stage.setTitle("Lyra - Your Personal Task Manager");
         stage.setResizable(true);
-        stage.setMinHeight(500.0);
-        stage.setMinWidth(450.0);
+        stage.setMinHeight(600.0);
+        stage.setMinWidth(500.0);
+        stage.setWidth(600.0);
+        stage.setHeight(700.0);
 
-        mainLayout.setPrefSize(450.0, 600.0);
-        mainLayout.setStyle("-fx-background-color: #fafafa;");
+        // Modern gradient background
+        mainLayout.setStyle(
+            "-fx-background-color: linear-gradient(to bottom, #f8fafc 0%, #f1f5f9 100%);"
+        );
 
-        scrollPane.setPrefSize(430, 540);
+        // Configure scroll pane with better styling
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        scrollPane.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
-
-        scrollPane.setVvalue(1.0);
+        scrollPane.setStyle(
+            "-fx-background-color: transparent; " +
+            "-fx-border-color: transparent; " +
+            "-fx-background-insets: 0;"
+        );
         scrollPane.setFitToWidth(true);
+        scrollPane.setVvalue(1.0);
 
+        // Configure dialog container
         dialogContainer.setPrefHeight(VBox.USE_COMPUTED_SIZE);
-        dialogContainer.setSpacing(8);
-        dialogContainer.setPadding(new javafx.geometry.Insets(10));
+        dialogContainer.setSpacing(12);
+        dialogContainer.setPadding(new Insets(20, 0, 20, 0));
+        dialogContainer.setStyle("-fx-background-color: transparent;");
 
-        userInput.setPrefWidth(350.0);
-        userInput.setStyle("-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-border-radius: 20; -fx-background-radius: 20; -fx-padding: 8 15; -fx-font-size: 14;");
+        // Configure input field with modern styling
+        userInput.setFont(Font.font("Segoe UI", 14));
+        userInput.setStyle(
+            "-fx-background-color: white; " +
+            "-fx-border-color: #d1d5db; " +
+            "-fx-border-radius: 25; " +
+            "-fx-background-radius: 25; " +
+            "-fx-padding: 12 20; " +
+            "-fx-font-size: 14; " +
+            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 1);"
+        );
+        userInput.setPromptText("Type your message here...");
 
-        sendButton.setPrefWidth(70.0);
-        sendButton.setStyle("-fx-background-color: #0078d4; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-weight: bold; -fx-font-size: 12;");
+        // Configure send button with modern styling
+        sendButton.setFont(Font.font("Segoe UI", FontWeight.BOLD, 14));
+        sendButton.setStyle(
+            "-fx-background-color: #0078d4; " +
+            "-fx-text-fill: white; " +
+            "-fx-background-radius: 25; " +
+            "-fx-font-weight: bold; " +
+            "-fx-font-size: 14; " +
+            "-fx-padding: 12 24; " +
+            "-fx-effect: dropshadow(gaussian, rgba(0,120,212,0.3), 3, 0, 0, 1);"
+        );
+        sendButton.setOnMouseEntered(e -> 
+            sendButton.setStyle(
+                "-fx-background-color: #106ebe; " +
+                "-fx-text-fill: white; " +
+                "-fx-background-radius: 25; " +
+                "-fx-font-weight: bold; " +
+                "-fx-font-size: 14; " +
+                "-fx-padding: 12 24; " +
+                "-fx-effect: dropshadow(gaussian, rgba(0,120,212,0.4), 4, 0, 0, 1);"
+            )
+        );
+        sendButton.setOnMouseExited(e -> 
+            sendButton.setStyle(
+                "-fx-background-color: #0078d4; " +
+                "-fx-text-fill: white; " +
+                "-fx-background-radius: 25; " +
+                "-fx-font-weight: bold; " +
+                "-fx-font-size: 14; " +
+                "-fx-padding: 12 24; " +
+                "-fx-effect: dropshadow(gaussian, rgba(0,120,212,0.3), 3, 0, 0, 1);"
+            )
+        );
 
-        AnchorPane.setTopAnchor(scrollPane, 1.0);
-        AnchorPane.setBottomAnchor(sendButton, 1.0);
-        AnchorPane.setRightAnchor(sendButton, 1.0);
-        AnchorPane.setBottomAnchor(userInput, 1.0);
-        AnchorPane.setLeftAnchor(userInput, 1.0);
-        AnchorPane.setRightAnchor(userInput, 1.0);
+        // Set up responsive layout constraints
+        AnchorPane.setTopAnchor(scrollPane, 0.0);
+        AnchorPane.setLeftAnchor(scrollPane, 0.0);
+        AnchorPane.setRightAnchor(scrollPane, 0.0);
+        AnchorPane.setBottomAnchor(scrollPane, 80.0);
+
+        AnchorPane.setBottomAnchor(sendButton, 20.0);
+        AnchorPane.setRightAnchor(sendButton, 20.0);
+
+        AnchorPane.setBottomAnchor(userInput, 20.0);
+        AnchorPane.setLeftAnchor(userInput, 20.0);
+        AnchorPane.setRightAnchor(userInput, 100.0);
 
         // Add event handlers
         sendButton.setOnMouseClicked((event) -> {
@@ -105,7 +166,7 @@ public class Launcher extends Application {
         guiUi.showWelcome();
         String welcomeMessage = guiUi.getOutput();
         dialogContainer.getChildren().add(
-            DialogBox.getLyraDialog(welcomeMessage, false)
+            DialogBox.getLyraDialog(welcomeMessage)
         );
     }
 
@@ -120,7 +181,7 @@ public class Launcher extends Application {
 
         // Add user input to dialog
         dialogContainer.getChildren().add(
-            DialogBox.getUserDialog(input, true)
+            DialogBox.getUserDialog(input)
         );
 
         // Process command
@@ -135,23 +196,42 @@ public class Launcher extends Application {
                 response = "Command executed successfully.";
             }
             
-            // Add response to dialog
-            dialogContainer.getChildren().add(
-                DialogBox.getLyraDialog(response, false)
-            );
+            // Determine dialog type based on command type
+            DialogBox responseDialog;
+            if (isSuccessCommand(c)) {
+                responseDialog = DialogBox.getSuccessDialog(response);
+            } else {
+                responseDialog = DialogBox.getLyraDialog(response);
+            }
+            
+            dialogContainer.getChildren().add(responseDialog);
 
             // Check if exit command
             if (c.isExit()) {
                 stage.close();
             }
         } catch (LyraException e) {
+            // Show error with distinct styling
             dialogContainer.getChildren().add(
-                DialogBox.getLyraDialog("Error: " + e.getMessage(), false)
+                DialogBox.getErrorDialog("⚠️ " + e.getMessage())
             );
         }
 
         // Clear input and scroll to bottom
         userInput.clear();
         scrollPane.setVvalue(1.0);
+    }
+
+    /**
+     * Determines if a command should be displayed as a success message.
+     */
+    private boolean isSuccessCommand(Command c) {
+        String className = c.getClass().getSimpleName();
+        return className.equals("AddTodoCommand") || 
+               className.equals("AddDeadlineCommand") || 
+               className.equals("AddEventCommand") ||
+               className.equals("MarkCommand") ||
+               className.equals("UnmarkCommand") ||
+               className.equals("DeleteCommand");
     }
 }
